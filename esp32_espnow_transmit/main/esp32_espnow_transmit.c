@@ -88,8 +88,6 @@ void app_main(void) {
     data_t data = {0};
     while (1) {
         data.node_id = 1;
-        data.temperature = 25.5 + (esp_random() % 100) / 10.0;
-        data.humidity = 60.0 + (esp_random() % 200) / 10.0;
         data.timestamp = xTaskGetTickCount();
         
         esp_err_t result = esp_now_send(receiver_mac, (uint8_t *)&data, sizeof(data));
