@@ -36,6 +36,7 @@ typedef struct {
 } data_t;
 
 static void espnow_send_cb(const uint8_t *mac, esp_now_send_status_t status);
+static void espnow_send_task(void *pvParameter);
 static void wifi_init(void);
 static void espnow_init(void);
 
@@ -69,6 +70,32 @@ static void espnow_init(void) {
     ESP_ERROR_CHECK(esp_now_add_peer(&peer));
     
     ESP_LOGI(TAG, "ESP-NOW initialized");
+}
+
+// RTOS task for sending ESP-NOW data
+static void espnow_send_task(void *pvParameter) {
+    sensor_data_t data = {0};
+    
+    ESP_LOGI(TAG, "ESP-NOW send task started");
+    
+    while (1) {
+        // Prepare data
+        data.sensor_id = 1;
+        data.temperature = 25.5 + (esp_random() % 100) / 10.0;
+        data.humidity = 60.0 + (esp_random() % 200) / 10.0;
+        data.timestamp = xTaskGetTickCount();
+        
+        // Send data
+        esp_err_t result = esp_now_send(receiver_mac, (uint8_t *)&data, sizeof(data));
+        if (result == ESP_OK) {
+            ESP_LOGI(TAG, "Sent: ID=%d, Temp=%.1f, Hum=%.1f", 
+                     data.sensor_id, data.temperature, data.humidity);
+        } else {
+            ESP_LOGE(TAG, "Send failed: %s", esp_err_to_name(result));
+        }
+        
+        vTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
+    }
 }
 
 void app_main(void) {
