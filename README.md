@@ -42,14 +42,14 @@ esp-now-communication/
 
   1. Clone and Setup
   ``` sh
-  bashgit clone <repository-url>
+  git clone <repository-url>
   cd esp-now-communication
   . $IDF_PATH/export.sh  # Setup ESP-IDF environment
   ```
 
   2. Flash Receiver
   ``` sh
-  bashcd receiver
+  cd receiver
   idf.py set-target esp32  # or esp32s3, esp32c3, etc.
   idf.py build flash monitor
   ```
@@ -59,12 +59,12 @@ esp-now-communication/
   Edit transmitter/main/main.c and replace the broadcast MAC address:
 
   ```c
-  cstatic uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Your receiver's MAC
+  static uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Your receiver's MAC
   ```
 
   4. Flash Transmitter
   ``` sh
-  bashcd ../transmitter
+  cd ../transmitter
   idf.py set-target esp32
   idf.py build flash monitor
   ```
@@ -74,7 +74,7 @@ esp-now-communication/
 The example transmits sensor data with the following structure:
 
 ``` c
-ctypedef struct {
+typedef struct {
     int node_id;
     float sensor1;
     float sensor2;
@@ -91,14 +91,14 @@ Customize this structure for your specific application needs.
 Adjust the delay in espnow_send_task():
 
 ``` c
-cvTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
+vTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
 ```
 
 ### Queue Size
 
 Modify queue depth in receiver for higher data rates:
 ``` c
-cespnow_queue = xQueueCreate(10, sizeof(espnow_event_t)); // 10 items
+espnow_queue = xQueueCreate(10, sizeof(espnow_event_t)); // 10 items
 ```
 
 ### Task Priority
@@ -106,7 +106,7 @@ cespnow_queue = xQueueCreate(10, sizeof(espnow_event_t)); // 10 items
 Change task priorities based on your system requirements:
 
 ```c
-cxTaskCreate(espnow_send_task, "espnow_send", 4096, NULL, 5, NULL); // Priority 5
+xTaskCreate(espnow_send_task, "espnow_send", 4096, NULL, 5, NULL); // Priority 5
 ```
 
 ### Communication Modes
@@ -114,13 +114,13 @@ cxTaskCreate(espnow_send_task, "espnow_send", 4096, NULL, 5, NULL); // Priority 
 Broadcast Mode (Default)
 
 ``` c
-cstatic uint8_t receiver_mac[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+static uint8_t receiver_mac[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 ```
 Sends to all nearby ESP-NOW devices.
 
 Direct Mode (Recommended)
 ``` c
-cstatic uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
+static uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
 ```
 Sends to a specific device by MAC address.
 
