@@ -83,13 +83,12 @@ static void espnow_send_task(void *pvParameter) {
         data.node_id = 1;
         data.timestamp = xTaskGetTickCount();
         
-        // Send data
         esp_err_t result = esp_now_send(receiver_mac, (uint8_t *)&data, sizeof(data));
         if (result == ESP_OK) {
-            ESP_LOGI(TAG, "Sent: ID=%d, Temp=%.1f, Hum=%.1f", 
-                     data.sensor_id, data.temperature, data.humidity);
+            ESP_LOGI(TAG, "Sent: Node ID=%d", 
+                     data.node_id);
         } else {
-            ESP_LOGE(TAG, "Send failed: %s", esp_err_to_name(result));
+            ESP_LOGE(TAG, "Send failed");
         }
         
         vTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
