@@ -22,6 +22,19 @@
 #include "nvs_flash.h"
 #include "esp_log.h"
 
+static const char *TAG = "ESPNOW_TX";
+
+// MAC address of receiver (change to your receiver's MAC)
+static uint8_t receiver_mac[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; // Broadcast
+
+// Define your data structure
+typedef struct {
+    int node_id;
+    float sensor1;
+    float sensor2;
+    uint32_t timestamp;
+} sensor_data_t;
+
 void app_main(void)
 {
 
