@@ -15,6 +15,7 @@ This repository contains two programs that demonstrate bidirectional struct-base
 
 ## Repository Structure
 
+```
 esp-now-communication/
 ├── transmitter/
 │   ├── main/
@@ -25,47 +26,61 @@ esp-now-communication/
 │   │   └── main.c          # ESP-NOW receiver with RTOS task
 │   └── CMakeLists.txt
 └── README.md
+```
 
 ## Hardware Requirements
 
-2x ESP32 development boards (ESP32, ESP32-S2, ESP32-S3, or ESP32-C3)
-USB cables for programming and power
+  - 2x ESP32 development boards (ESP32, ESP32-S2, ESP32-S3, or ESP32-C3)
+  - USB cables for programming and power
 
 ## Software Requirements
 
-ESP-IDF v5.4.1 or later
-Python 3.x (for ESP-IDF tools)
+  - ESP-IDF v5.4.1 or later
+  - Python 3.x (for ESP-IDF tools)
 
 ## Quick Start
 
   1. Clone and Setup
-    bashgit clone <repository-url>
-    cd esp-now-communication
-    . $IDF_PATH/export.sh  # Setup ESP-IDF environment
+  ``` sh
+  bashgit clone <repository-url>
+  cd esp-now-communication
+  . $IDF_PATH/export.sh  # Setup ESP-IDF environment
+  ```
 
   2. Flash Receiver
-bashcd receiver
-idf.py set-target esp32  # or esp32s3, esp32c3, etc.
-idf.py build flash monitor
-Important: Note the MAC address printed in the monitor output.
-3. Update Transmitter MAC Address
-Edit transmitter/main/main.c and replace the broadcast MAC address:
-cstatic uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Your receiver's MAC
-4. Flash Transmitter
-bashcd ../transmitter
-idf.py set-target esp32
-idf.py build flash monitor
+  ``` sh
+  bashcd receiver
+  idf.py set-target esp32  # or esp32s3, esp32c3, etc.
+  idf.py build flash monitor
+  ```
+  **Important:** Note the MAC address printed in the monitor output.
+
+  3. Update Transmitter MAC Address
+  Edit transmitter/main/main.c and replace the broadcast MAC address:
+
+  ```c
+  cstatic uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Your receiver's MAC
+  ```
+
+  4. Flash Transmitter
+  ``` sh
+  bashcd ../transmitter
+  idf.py set-target esp32
+  idf.py build flash monitor
+  ```
 
 ## Data Structure
 
 The example transmits sensor data with the following structure:
 
+``` c
 ctypedef struct {
-    int sensor_id;
-    float temperature;
-    float humidity;
+    int node_id;
+    float sensor1;
+    float sensor2;
     uint32_t timestamp;
 } data_t;
+```
 
 Customize this structure for your specific application needs.
 
