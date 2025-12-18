@@ -35,15 +35,15 @@ esp-now-communication/
 
 ## Software Requirements
 
-  - ESP-IDF v5.4.1 or later
+  - ESP-IDF v5.4.1
   - Python 3.x (for ESP-IDF tools)
 
 ## Quick Start
 
   1. Clone and Setup
   ``` sh
-  git clone <repository-url>
-  cd esp-now-communication
+  git clone https://gitea.techquadbit.net/alex/ESP32_ESP-IDF_espnow.git
+  cd ESP32_ESP-IDF_espnow
   . $IDF_PATH/export.sh  # Setup ESP-IDF environment
   ```
 
