@@ -74,15 +74,13 @@ static void espnow_init(void) {
 
 // RTOS task for sending ESP-NOW data
 static void espnow_send_task(void *pvParameter) {
-    sensor_data_t data = {0};
+    data_t data = {0};
     
     ESP_LOGI(TAG, "ESP-NOW send task started");
     
     while (1) {
         // Prepare data
-        data.sensor_id = 1;
-        data.temperature = 25.5 + (esp_random() % 100) / 10.0;
-        data.humidity = 60.0 + (esp_random() % 200) / 10.0;
+        data.node_id = 1;
         data.timestamp = xTaskGetTickCount();
         
         // Send data
