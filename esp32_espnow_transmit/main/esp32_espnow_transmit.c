@@ -110,19 +110,7 @@ void app_main(void) {
     espnow_init();
     
     // Transmit data periodically
-    data_t data = {0};
-    while (1) {
-        data.node_id = 1;
-        data.timestamp = xTaskGetTickCount();
-        
-        esp_err_t result = esp_now_send(receiver_mac, (uint8_t *)&data, sizeof(data));
-        if (result == ESP_OK) {
-            ESP_LOGI(TAG, "Sent: Node ID=%d", 
-                     data.node_id);
-        } else {
-            ESP_LOGE(TAG, "Send failed");
-        }
-        
-        vTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
-    }
+    xTaskCreate(espnow_send_task, "espnow_send", 4096, NULL, 5, NULL);
+
+    ESP_LOGI(TAG, "Initialization complete");
 }
