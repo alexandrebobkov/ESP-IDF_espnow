@@ -83,6 +83,7 @@ static void espnow_send_task(void *pvParameter) {
         data.node_id = 1;
         data.timestamp = xTaskGetTickCount();
         
+        // Send data
         esp_err_t result = esp_now_send(receiver_mac, (uint8_t *)&data, sizeof(data));
         if (result == ESP_OK) {
             ESP_LOGI(TAG, "Sent: Node ID=%d", 
