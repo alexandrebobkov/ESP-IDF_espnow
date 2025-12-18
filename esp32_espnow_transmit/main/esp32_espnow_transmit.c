@@ -35,6 +35,8 @@ typedef struct {
     uint32_t timestamp;
 } data_t;
 
+static void espnow_send_cb(const uint8_t *mac, esp_now_send_status_t status);
+
 // ESP-NOW send callback
 static void espnow_send_cb(const uint8_t *mac, esp_now_send_status_t status) {
     ESP_LOGI(TAG, "Send status: %s", status == ESP_NOW_SEND_SUCCESS ? "Success" : "Fail");
