@@ -49,29 +49,30 @@ esp-now-communication/
 
   2. Flash Receiver
   ``` sh
-  cd receiver
+  cd esp32_espnow_receive
   idf.py set-target esp32  # or esp32s3, esp32c3, etc.
   idf.py build flash monitor
   ```
   **Important:** Note the MAC address printed in the monitor output.
 
   3. Update Transmitter MAC Address
-  Edit transmitter/main/main.c and replace the broadcast MAC address:
+
+  Edit esp32_espnow_transmit/main/main.c and replace the broadcast MAC address:
 
   ```c
-  static uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Your receiver's MAC
+  static uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Your receiver's MAC from the Step #2
   ```
 
   4. Flash Transmitter
   ``` sh
-  cd ../transmitter
+  cd ../esp32_espnow_transmit
   idf.py set-target esp32
   idf.py build flash monitor
   ```
 
 ## Data Structure
 
-The example transmits sensor data with the following structure:
+The example transmits sensor data with the following data struct:
 
 ``` c
 typedef struct {
@@ -82,7 +83,7 @@ typedef struct {
 } data_t;
 ```
 
-Customize this structure for your specific application needs.
+You may customize this structure for your specific application needs.
 
 ## Configuration
 
