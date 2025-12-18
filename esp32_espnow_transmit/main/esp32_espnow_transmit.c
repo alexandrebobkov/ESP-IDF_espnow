@@ -89,7 +89,7 @@ static void espnow_send_task(void *pvParameter) {
             ESP_LOGI(TAG, "Sent: Node ID=%d", 
                      data.node_id);
         } else {
-            ESP_LOGE(TAG, "Send failed");
+            ESP_LOGE(TAG, "Send failed: %s", esp_err_to_name(result));
         }
         
         vTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
