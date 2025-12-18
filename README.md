@@ -86,45 +86,69 @@ Customize this structure for your specific application needs.
 
 ## Configuration
 
-Transmission Rate
+### Transmission Rate
+
 Adjust the delay in espnow_send_task():
+
+``` c
 cvTaskDelay(pdMS_TO_TICKS(2000)); // Send every 2 seconds
-Queue Size
+```
+
+### Queue Size
+
 Modify queue depth in receiver for higher data rates:
+``` c
 cespnow_queue = xQueueCreate(10, sizeof(espnow_event_t)); // 10 items
-Task Priority
+```
+
+### Task Priority
+
 Change task priorities based on your system requirements:
+
+```c
 cxTaskCreate(espnow_send_task, "espnow_send", 4096, NULL, 5, NULL); // Priority 5
-Communication Modes
+```
+
+### Communication Modes
+
 Broadcast Mode (Default)
+
+``` c
 cstatic uint8_t receiver_mac[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+```
 Sends to all nearby ESP-NOW devices.
+
 Direct Mode (Recommended)
+``` c
 cstatic uint8_t receiver_mac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
+```
 Sends to a specific device by MAC address.
 
 ## Architecture
 
 ### Transmitter Flow
 
-Initialize WiFi in Station mode
-Initialize ESP-NOW and add peer
-Create RTOS task for periodic transmission
-Send callback confirms delivery status
+  - Initialize WiFi in Station mode
+  - Initialize ESP-NOW and add peer
+  - Create RTOS task for periodic transmission
+  - Send callback confirms delivery status
 
 ### Receiver Flow
 
-Initialize WiFi in Station mode
-Initialize ESP-NOW with receive callback
-Create queue for ISR-to-task communication
-Receive callback validates and queues data
-RTOS task processes data from queue
+  - Initialize WiFi in Station mode
+  - Initialize ESP-NOW with receive callback
+  - Create queue for ISR-to-task communication
+  - Receive callback validates and queues data
+  - RTOS task processes data from queue
 
 ## Performance
 
 Latency: < 10ms typical
+
 Range: Up to 200m line-of-sight (environment dependent)
+
 Data rate: Up to 250 packets/second
+
 Payload: Up to 250 bytes per packet
 
 ## Troubleshooting
@@ -132,12 +156,15 @@ Payload: Up to 250 bytes per packet
 ### No data received
 
 Verify both devices are on the same WiFi channel
+
 Check MAC address is correctly configured in transmitter
+
 Ensure both devices use matching data structures
 
 ### Packet loss
 
 Reduce transmission rate
+
 Increase queue size on receiver
 Check for WiFi interference
 
