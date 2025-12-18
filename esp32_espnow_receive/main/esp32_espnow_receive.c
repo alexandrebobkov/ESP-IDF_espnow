@@ -45,7 +45,7 @@ typedef struct {
 
 // ESP-NOW receive callback
 static void espnow_recv_cb(const esp_now_recv_info_t *recv_info, const uint8_t *data, int len) {
-    if (len == sizeof(sensor_data_t)) {
+    if (len == sizeof(data_t)) {
         espnow_event_t evt;
         memcpy(evt.mac, recv_info->src_addr, 6);
         memcpy(&evt.data, data, sizeof(data_t));
