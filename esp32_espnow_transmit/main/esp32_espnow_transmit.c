@@ -27,7 +27,7 @@ static const char *TAG = "ESPNOW_TX";
 // MAC address of receiver (change to your receiver's MAC)
 static uint8_t receiver_mac[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; // Broadcast
 
-// Define your data structure
+// Define your data structure (transmit & receive structs must be identical)
 typedef struct {
     int node_id;
     float sensor1;
