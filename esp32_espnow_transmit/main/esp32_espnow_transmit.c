@@ -37,6 +37,7 @@ typedef struct {
 
 static void espnow_send_cb(const uint8_t *mac, esp_now_send_status_t status);
 static void wifi_init(void);
+static void espnow_init(void);
 
 // ESP-NOW send callback
 static void espnow_send_cb(const uint8_t *mac, esp_now_send_status_t status) {
