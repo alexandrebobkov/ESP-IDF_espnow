@@ -92,8 +92,8 @@ void app_main(void) {
         
         esp_err_t result = esp_now_send(receiver_mac, (uint8_t *)&data, sizeof(data));
         if (result == ESP_OK) {
-            ESP_LOGI(TAG, "Sent: ID=%d, Temp=%.1f, Hum=%.1f", 
-                     data.sensor_id, data.temperature, data.humidity);
+            ESP_LOGI(TAG, "Sent: Node ID=%d", 
+                     data.node_id);
         } else {
             ESP_LOGE(TAG, "Send failed");
         }
